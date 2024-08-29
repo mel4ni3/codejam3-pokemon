@@ -12,7 +12,7 @@ class Program
 {
     public static async Task Main(string[] args)
     {
-        
+        Console.ForegroundColor = ConsoleColor.Yellow;
         string title = @"
                                   ,'\
     _.----.        ____         ,'  _\   ___    ___     ____
@@ -53,12 +53,49 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             // Console.WriteLine("Pick a number to the see the stats:");
 
 
-                await GetPokemon(p.ToLower());
-                await GetFemaletoMaleRate(p);
-                await GetBaseHappiness(p);
+                bool quit2 = false;
+
+            PrintPoke(p.ToLower());
+                while (!quit2){
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Pick a number to the see the stats:");
+                Console.WriteLine("1. Basic Info (Capture Rate & Pokedex Number)");
+                Console.WriteLine("2. Female to Male Ratio");
+                Console.WriteLine("3. Base Happiness");
+                Console.WriteLine("4. All of the above");
+                Console.WriteLine("5. Quit Menu");
+                            
+                Console.ForegroundColor = ConsoleColor.White;
+                var x = Console.ReadLine()?.ToLower();
+                if(x == "1"){
+                    await GetPokemon(p.ToLower());
+                }
+                else if(x == "2"){
+                    await GetFemaletoMaleRate(p.ToLower());
+                }
+                else if(x == "3"){
+                    await GetBaseHappiness(p.ToLower());
+                }
+                else if(x == "4"){
+                    await GetPokemon(p.ToLower());
+                    await GetFemaletoMaleRate(p);
+                    await GetBaseHappiness(p);                    
+                }
+                else if (x == "5"){
+                    quit2 = true;
+                    break;
+                }
+                else{
+                    Console.WriteLine("Invalid input. Try again!");
+                    break;
+                }
+                // await GetPokemon(p.ToLower());
+                // await GetFemaletoMaleRate(p);
+                // await GetBaseHappiness(p);
             }
         } 
-        }
+    }
+    }
 
     public static async Task GetFemaletoMaleRate(string pokemonspecies){
         PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
@@ -86,7 +123,22 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         try
         {
             PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
-            if (pokemonspecies == "jigglypuff")
+            
+
+            float cRate = p.CaptureRate;
+                    float entrynumber = p.PokedexNumbers[0].EntryNumber;
+                    Console.WriteLine(p.Name + " has a capture rate of " + cRate + "!");
+                    Console.WriteLine(p.Name + " has a pokedex number of " + entrynumber + "!");
+        }
+        catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            Console.WriteLine("Pokemon species not found.");
+        }
+       
+    }
+
+    public static void PrintPoke(string pokemonspecies){
+        if (pokemonspecies == "jigglypuff")
             {
 
                 Console.ForegroundColor = ConsoleColor.Magenta;
@@ -121,12 +173,53 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
                 Console.WriteLine(jigglypuff);
             }
 
-                float cRate = p.CaptureRate;
-                float entrynumber = p.PokedexNumbers[0].EntryNumber;
-                Console.WriteLine(p.Name + " has a capture rate of " + cRate + "!");
-                Console.WriteLine(p.Name + " has a pokedex number of " + entrynumber + "!");
-                //string imageUrl = $"http://pokeapi.co/media/sprites/pokemon/{p}.png";
-                //Console.WriteLine(imageUrl);
+                if (pokemonspecies == "charizard")
+                {
+
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    string charizard = @"
+.""-,.__
+                 `.     `.  ,
+              .--'  .._,'""-' `.
+             .    .'         `'
+             `.   /          ,'
+               `  '--.   ,-""'
+                `""`   |  \
+                   -. \, |
+                    `--Y.'      ___.
+                         \     L._, \
+               _.,        `.   <  <\                _
+             ,' '           `, `.   | \            ( `
+          ../, `.            `  |    .\`.           \ \_
+         ,' ,..  .           _.,'    ||\l            )  '"".
+        , ,'   \           ,'.-.`-._,'  |           .  _._`.
+      ,' /      \ \        `' ' `--/   | \          / /   ..\
+    .'  /        \ .         |\__ - _ ,'` `        / /     `.`.
+    |  '          ..         `-...-""  |  `-'      / /        . `.
+    | /           |L__           |    |          / /          `. `.
+   , /            .   .          |    |         / /             ` `
+  / /          ,. ,`._ `-_       |    |  _   ,-' /               ` \
+ / .           \""`_/. `-_ \_,.  ,'    +-' `-'  _,        ..,-.    \`.
+.  '         .-f    ,'   `    '.       \__.---'     _   .'   '     \ \
+' /          `.'    l     .' /          \..      ,_|/   `.  ,'`     L`
+|'      _.-""""` `.    \ _,'  `            \ `.___`.'""`-.  , |   |    | \
+||    ,'      `. `.   '       _,...._        `  |    `/ '  |   '     .|
+||  ,'          `. ;.,.---' ,'       `.   `.. `-'  .-' /_ .'    ;_   ||
+|| '              V      / /           `   | `   ,'   ,' '.    !  `. ||
+||/            _,-------7 '              . |  `-'    l         /    `||
+. |          ,' .-   ,' ||               | .-.        `.      .'     ||
+ `'        ,'    `"".'    |               |    `.        '. -.'       `'
+          /      ,'      |               |,'    \-.._,.'/'
+          .     /        .               .       \    .''
+        .`.    |         `.             /         :_,'.'
+          \ `...\   _     ,'-.        .'         /_.-'
+           `-.__ `,  `'   .  _.>----''.  _  __  /
+                .'        /""'          |  ""'   '_
+               /_|.-'\ ,"".             '.'`__'-( \
+                 / ,""'""\,'               `/  `-.|"" ";
+
+                    Console.WriteLine(charizard);
+                }
 
                 string imageUrl = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{entrynumber}.png";
 
@@ -144,6 +237,132 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             Console.WriteLine("Pokemon species not found.");
         }
        
+            if (pokemonspecies == "pikachu")
+            {
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                string pikachu = @"
+quu..__
+ $$$b  `---.__
+  ""$$b        `--.                          ___.---uuudP
+   `$$b           `.__.------.__     __.---'      $$$$""              .
+     ""$b          -'            `-.-'            $$$""              .'|
+       "".                                       d$""             _.'  |
+         `.   /                              ...""             .'     |
+           `./                           ..::-'            _.'       |
+            /                         .:::-'            .-'         .'
+           :                          ::''\          _.'            |
+          .' .-.             .-.           `.      .'               |
+          : /'$$|           .@""$\           `.   .'              _.-'
+         .'|$u$$|          |$$,$$|           |  <            _.-'
+         | `:$$:'          :$$$$$:           `.  `.       .-'
+         :                  `""--'             |    `-.     \
+        :##.       ==             .###.       `.      `.    `\
+        |##:                      :###:        |        >     >
+        |#'     `..'`..'          `###'        x:      /     /
+         \                                   xXX|     /    ./
+          \                                xXXX'|    /   ./
+          /`-.                                  `.  /   /
+         :    `-  ...........,                   | /  .'
+         |         ``:::::::'       .            |<    `.
+         |             ```          |           x| \ `.:``.
+         |                         .'    /'   xXX|  `:`M`M':.
+         |    |                    ;    /:' xXXX'|  -'MMMMM:'
+         `.  .'                   :    /:'       |-'MMMM.-'
+          |  |                   .'   /'        .'MMM.-'
+          `'`'                   :  ,'          |MMM<
+            |                     `'            |tbap\
+             \                                  :MM.-'
+              \                 |              .''
+               \.               `.            /
+                /     .:::::::.. :           /
+               |     .:::::::::::`.         /
+               |   .:::------------\       /
+              /   .''               >::'  /
+              `',:                 :    .'
+                                   `:.:'";
+
+                Console.WriteLine(pikachu);
+            }
+
+            if (pokemonspecies == "squirtle")
+            {
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                string squirtle = @"
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     _,........__
+            ,-'            ""`-.
+          ,'                   `-.
+        ,'                        \
+      ,'                           .
+      .'\               ,"""".       `
+     ._.'|             / |  `       \
+     |   |            `-.'  ||       `.
+     |   |            '-._,'||       | \
+     .`.,'             `..,'.'       , |`-.
+     l                       .'`.  _/  |   `.
+     `-.._'-   ,          _ _'   -"" \  .     `
+`.""""""""""'-.`-...,---------','         `. `....__.
+.'        `""-..___      __,'\          \  \     \
+\_ .          |   `""""""""'    `.           . \     \
+  `.          |              `.          |  .     L
+    `.        |`--...________.'.        j   |     |
+      `._    .'      |          `.     .|   ,     |
+         `--,\       .            `7""""' |  ,      |
+            ` `      `            /     |  |      |    _,-'""""""`-.
+             \ `.     .          /      |  '      |  ,'          `.
+              \  v.__  .        '       .   \    /| /              \
+               \/    `""""\""""""""""""""`.       \   \  /.''                |
+                `        .        `._ ___,j.  `/ .-       ,---.     |
+                ,`-.      \         .""     `.  |/        j     `    |
+               /    `.     \       /         \ /         |     /    j
+              |       `-.   7-.._ .          |""          '         /
+              |          `./_    `|          |            .     _,'
+              `.           / `----|          |-............`---'
+                \          \      |          |
+               ,'           )     `.         |
+                7____,,..--'      /          |
+                                  `---.__,--.'mh";
+
+                Console.WriteLine(squirtle);
+            }
+
+            if (pokemonspecies == "bulbasaur")
+            {
+
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                string bulbasaur = @"
+                                           /
+                        _,.------....___,.' ',.-.
+                     ,-'          _,.--""        |
+                   ,'         _.-'              .
+                  /   ,     ,'                   `
+                 .   /     /                     ``.
+                 |  |     .                       \.\
+       ____      |___._.  |       __               \ `.
+     .'    `---""""       ``""-.--""'`  \               .  \
+    .  ,            __               `              |   .
+    `,'         ,-""'  .               \             |    L
+   ,'          '    _.'                -._          /    |
+  ,`-.    ,"".   `--'                      >.      ,'     |
+ . .'\'   `-'       __    ,  ,-.         /  `.__.-      ,'
+ ||:, .           ,'  ;  /  / \ `        `.    .      .'/
+ j|:D  \          `--'  ' ,'_  . .         `.__, \   , /
+/ L:_  |                 .  ""' :_;                `.'.'
+.    """"'                  """"""""""'                    V
+ `.                                 .    `.   _,..  `
+   `,_   .    .                _,-'/    .. `,'   __  `
+    ) \`._        ___....----""'  ,'   .'  \ |   '  \  .
+   /   `. ""`-.--""'         _,' ,'     `---' |    `./  |
+  .   _  `""""'--.._____..--""   ,             '         |
+  | ."" `. `-.                /-.           /          ,
+  | `._.'    `,_            ;  /         ,'          .
+ .'          /| `-.        . ,'         ,           ,
+ '-.__ __ _,','    '`-..___;-...__   ,.'\ ____.___.'
+ `""^--'..'   '-`-^-'""--    `-^-'`.''""""""""""`.,^.`.--'";
+
+                Console.WriteLine(bulbasaur);
+            }
     }
 
 }
