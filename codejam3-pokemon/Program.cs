@@ -49,7 +49,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 
                 bool quit2 = false;
 
-
+            PrintPoke(p.ToLower());
                 while (!quit2){
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Pick a number to the see the stats:");
@@ -117,7 +117,22 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         try
         {
             PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
-            if (pokemonspecies == "jigglypuff")
+            
+
+            float cRate = p.CaptureRate;
+                    float entrynumber = p.PokedexNumbers[0].EntryNumber;
+                    Console.WriteLine(p.Name + " has a capture rate of " + cRate + "!");
+                    Console.WriteLine(p.Name + " has a pokedex number of " + entrynumber + "!");
+        }
+        catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            Console.WriteLine("Pokemon species not found.");
+        }
+       
+    }
+
+    public static void PrintPoke(string pokemonspecies){
+        if (pokemonspecies == "jigglypuff")
             {
 
                 Console.ForegroundColor = ConsoleColor.Magenta;
@@ -326,17 +341,6 @@ quu..__
 
                 Console.WriteLine(bulbasaur);
             }
-
-            float cRate = p.CaptureRate;
-                    float entrynumber = p.PokedexNumbers[0].EntryNumber;
-                    Console.WriteLine(p.Name + " has a capture rate of " + cRate + "!");
-                    Console.WriteLine(p.Name + " has a pokedex number of " + entrynumber + "!");
-        }
-        catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
-        {
-            Console.WriteLine("Pokemon species not found.");
-        }
-       
     }
 
 }
