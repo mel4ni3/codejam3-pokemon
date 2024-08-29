@@ -3,6 +3,10 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.AspNetCore.Mvc;
+using static System.Net.Mime.MediaTypeNames;
+using System.Windows;
+using Windows.UI.Xaml.Media.Imaging;
+using System.Drawing;
 
 class Program
 {
@@ -46,7 +50,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             }
             else
             {
-                Console.WriteLine("Pick a number to the see the stats:");
+            // Console.WriteLine("Pick a number to the see the stats:");
 
 
                 await GetPokemon(p.ToLower());
@@ -115,6 +119,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 
 
                 Console.WriteLine(jigglypuff);
+            }
 
                 float cRate = p.CaptureRate;
                 float entrynumber = p.PokedexNumbers[0].EntryNumber;
@@ -123,10 +128,16 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
                 //string imageUrl = $"http://pokeapi.co/media/sprites/pokemon/{p}.png";
                 //Console.WriteLine(imageUrl);
 
+                string imageUrl = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{entrynumber}.png";
 
+                // Create a BitmapImage object to load the image from the URL
+                //BitmapImage image = new BitmapImage(new Uri(imageUrl));
 
+                
                 //p.EvolutionChain
-            }
+
+                Console.WriteLine("The image url of this pokemon is: " + imageUrl);
+            
         }
         catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
