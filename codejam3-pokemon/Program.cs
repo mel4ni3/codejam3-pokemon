@@ -89,6 +89,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             }
         } 
     }
+    }
 
     public static async Task GetFemaletoMaleRate(string pokemonspecies){
         PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
