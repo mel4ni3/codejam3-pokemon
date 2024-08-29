@@ -46,12 +46,46 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             }
             else
             {
-                //Console.WriteLine("Pick a number to the see the stats:");
+
+                bool quit2 = false;
 
 
-                await GetPokemon(p.ToLower());
-                await GetFemaletoMaleRate(p);
-                await GetBaseHappiness(p);
+                while (!quit2){
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Pick a number to the see the stats:");
+                Console.WriteLine("1. Basic Info (Capture Rate & Pokedex Number)");
+                Console.WriteLine("2. Female to Male Ratio");
+                Console.WriteLine("3. Base Happiness");
+                Console.WriteLine("4. All of the above");
+                Console.WriteLine("5. Quit Menu");
+                            
+                Console.ForegroundColor = ConsoleColor.White;
+                var x = Console.ReadLine()?.ToLower();
+                if(x == "1"){
+                    await GetPokemon(p.ToLower());
+                }
+                else if(x == "2"){
+                    await GetFemaletoMaleRate(p.ToLower());
+                }
+                else if(x == "3"){
+                    await GetBaseHappiness(p.ToLower());
+                }
+                else if(x == "4"){
+                    await GetPokemon(p.ToLower());
+                    await GetFemaletoMaleRate(p);
+                    await GetBaseHappiness(p);                    
+                }
+                else if (x == "5"){
+                    quit2 = true;
+                    break;
+                }
+                else{
+                    Console.WriteLine("Invalid input. Try again!");
+                    break;
+                }
+                // await GetPokemon(p.ToLower());
+                // await GetFemaletoMaleRate(p);
+                // await GetBaseHappiness(p);
             }
         } 
     }
@@ -296,14 +330,6 @@ quu..__
                     float entrynumber = p.PokedexNumbers[0].EntryNumber;
                     Console.WriteLine(p.Name + " has a capture rate of " + cRate + "!");
                     Console.WriteLine(p.Name + " has a pokedex number of " + entrynumber + "!");
-                    //string imageUrl = $"http://pokeapi.co/media/sprites/pokemon/{p}.png";
-                    //Console.WriteLine(imageUrl);
-
-
-
-                    //p.EvolutionChain
-                
-           
         }
         catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
