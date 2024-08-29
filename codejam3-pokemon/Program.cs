@@ -46,15 +46,48 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             }
             else
             {
+                bool quit2 = false;
+
+                while (!quit2){
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Pick a number to the see the stats:");
-
-
-                await GetPokemon(p.ToLower());
-                await GetFemaletoMaleRate(p);
-                await GetBaseHappiness(p);
+                Console.WriteLine("1. Basic Info (Capture Rate & Pokedex Number)");
+                Console.WriteLine("2. Female to Male Ratio");
+                Console.WriteLine("3. Base Happiness");
+                Console.WriteLine("4. All of the above");
+                Console.WriteLine("5. Quit Menu");
+                            
+                Console.ForegroundColor = ConsoleColor.White;
+                var x = Console.ReadLine()?.ToLower();
+                if(x == "1"){
+                    await GetPokemon(p.ToLower());
+                }
+                else if(x == "2"){
+                    await GetFemaletoMaleRate(p.ToLower());
+                }
+                else if(x == "3"){
+                    await GetBaseHappiness(p.ToLower());
+                }
+                else if(x == "4"){
+                    await GetPokemon(p.ToLower());
+                    await GetFemaletoMaleRate(p);
+                    await GetBaseHappiness(p);                    
+                }
+                else if (x == "5"){
+                    quit2 = true;
+                    break;
+                }
+                else{
+                    Console.WriteLine("Invalid input. Try again!");
+                    break;
+                }
+                // await GetPokemon(p.ToLower());
+                // await GetFemaletoMaleRate(p);
+                // await GetBaseHappiness(p);
             }
         } 
         }
+    }
 
     public static async Task GetFemaletoMaleRate(string pokemonspecies){
         PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
@@ -115,6 +148,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 
 
                 Console.WriteLine(jigglypuff);
+            }
 
                 float cRate = p.CaptureRate;
                 float entrynumber = p.PokedexNumbers[0].EntryNumber;
@@ -126,7 +160,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 
 
                 //p.EvolutionChain
-            }
+            
         }
         catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
