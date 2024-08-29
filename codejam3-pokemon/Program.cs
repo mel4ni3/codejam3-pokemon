@@ -3,6 +3,10 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.AspNetCore.Mvc;
+using static System.Net.Mime.MediaTypeNames;
+using System.Windows;
+using Windows.UI.Xaml.Media.Imaging;
+using System.Drawing;
 
 class Program
 {
@@ -46,6 +50,8 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             }
             else
             {
+            // Console.WriteLine("Pick a number to the see the stats:");
+
 
                 bool quit2 = false;
 
@@ -215,6 +221,22 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
                     Console.WriteLine(charizard);
                 }
 
+                string imageUrl = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{entrynumber}.png";
+
+                // Create a BitmapImage object to load the image from the URL
+                //BitmapImage image = new BitmapImage(new Uri(imageUrl));
+
+                
+                //p.EvolutionChain
+
+                Console.WriteLine("The image url of this pokemon is: " + imageUrl);
+            
+        }
+        catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            Console.WriteLine("Pokemon species not found.");
+        }
+       
             if (pokemonspecies == "pikachu")
             {
 
