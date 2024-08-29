@@ -79,7 +79,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
                 else if(x == "4"){
                     await GetPokemon(p.ToLower());
                     await GetFemaletoMaleRate(p);
-                    await GetBaseHappiness(p);                    
+                    await GetBaseHappiness(p);   
                 }
                 else if (x == "5"){
                     quit2 = true;
@@ -129,7 +129,18 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
                     float entrynumber = p.PokedexNumbers[0].EntryNumber;
                     Console.WriteLine(p.Name + " has a capture rate of " + cRate + "!");
                     Console.WriteLine(p.Name + " has a pokedex number of " + entrynumber + "!");
+            string imageUrl = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{entrynumber}.png";
+
+            // Create a BitmapImage object to load the image from the URL
+            //BitmapImage image = new BitmapImage(new Uri(imageUrl));
+
+
+            //p.EvolutionChain
+
+            Console.WriteLine("The image url of this pokemon is: " + imageUrl);
+
         }
+       
         catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
             Console.WriteLine("Pokemon species not found.");
@@ -221,21 +232,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
                     Console.WriteLine(charizard);
                 }
 
-                string imageUrl = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{entrynumber}.png";
-
-                // Create a BitmapImage object to load the image from the URL
-                //BitmapImage image = new BitmapImage(new Uri(imageUrl));
-
-                
-                //p.EvolutionChain
-
-                Console.WriteLine("The image url of this pokemon is: " + imageUrl);
-            
-        }
-        catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
-        {
-            Console.WriteLine("Pokemon species not found.");
-        }
+               
        
             if (pokemonspecies == "pikachu")
             {
