@@ -49,10 +49,11 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         {
             await startGame();
         }
+                    await PrintPoke(p.ToLower());
         bool quit2 = false;
         while (!quit2)
         {
-            await PrintPoke(p.ToLower());
+
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("---------------------------------------------");
             Console.WriteLine("Pick a number to the see the stats for " + p + ":");
@@ -186,7 +187,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
     public static void quitGame() {
         Console.WriteLine("Thanks for playing!");
         System.Threading.Thread.Sleep(1500); System.Environment.Exit(0);
-
+    }
 
     public static async Task PrintPoke(string pokemonspecies){
                 if (pokemonspecies == "jigglypuff")
