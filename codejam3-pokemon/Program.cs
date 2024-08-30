@@ -12,7 +12,7 @@ class Program
 {
     public static async Task Main()
     {
-
+        //nice title screen
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         string title = @"
@@ -415,3 +415,8 @@ quu..__
             }
 
 }
+
+
+//nice art, I like the style and the game was interesting
+
+//only thing I would say is to add comments so it can be easy for people to use the API Wrapper
