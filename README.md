@@ -6,9 +6,9 @@ This an API that searches for pokemon with 5 specific attributes to choose from 
 4. All of the above
 5. Quit menu
 
-The pokemon that apear with images include
--Pikachu
--JIgglypuff
--Bulbasaur
--Charizard
--Squirtle
+The pokemon that apear with images if you search for them are:
+1. Pikachu
+2. JIgglypuff
+3. Bulbasaur
+4. Charizard
+5. Squirtle
