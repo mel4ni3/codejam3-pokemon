@@ -7,11 +7,14 @@ using static System.Net.Mime.MediaTypeNames;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Drawing;
 using Spectre.Console;
+using System.ComponentModel.Design;
 
 class Program
 {
-    public static async Task Main(string[] args)
+    public static async Task Main()
     {
+
+
         Console.ForegroundColor = ConsoleColor.Yellow;
         string title = @"
                                   ,'\
@@ -29,72 +32,72 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
                                                                            ";
 
         Console.WriteLine(title);
-
         Console.WriteLine("Welcome to the Pokedex!");
+        await startGame();
+    }
 
-        //Console.WriteLine("Enter the name of a Pokemon to see its stats!");
-
-        //var p = Console.ReadLine();
-
-        bool quit = false;
-
-        while (!quit)
+    public static async Task startGame()
+    {
+        Console.WriteLine("Enter the name of a Pokemon to see its stats! Enter quit to quit.");
+        var p = Console.ReadLine()?.ToLower();
+        bool hasArt = false;
+        if (p == "quit")
         {
-            Console.WriteLine("Enter the name of a Pokemon to see its stats! Enter quit to quit.");
-            var p = Console.ReadLine()?.ToLower();
-
-            if (p == "quit")
-            {
-                quit = true;
-                break;
-            }
-            else
-            {
-            // Console.WriteLine("Pick a number to the see the stats:");
-
-
-                bool quit2 = false;
-
-                await PrintPoke(p.ToLower());
-                while (!quit2){
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("Pick a number to the see the stats:");
-                Console.WriteLine("1. Basic Info (Capture Rate & Pokedex Number)");
-                Console.WriteLine("2. Female to Male Ratio");
-                Console.WriteLine("3. Base Happiness");
-                Console.WriteLine("4. All of the above");
-                Console.WriteLine("5. Quit Menu");
-                            
-                Console.ForegroundColor = ConsoleColor.White;
-                var x = Console.ReadLine()?.ToLower();
-                if(x == "1"){
+            quitGame();
+        }
+        else if (!await isRealPoke(p))
+        {
+            await startGame();
+        }
+        bool quit2 = false;
+        while (!quit2)
+        {
+            await PrintPoke(p.ToLower());
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("Pick a number to the see the stats for " + p + ":");
+            Console.WriteLine("1. Basic Info (Capture Rate & Pokedex Number)");
+            Console.WriteLine("2. Female to Male Ratio");
+            Console.WriteLine("3. Base Happiness");
+            Console.WriteLine("4. All of the above");
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("Q. Quit Game");
+            Console.WriteLine("R. Restart");
+            if (!hasArt) { Console.ForegroundColor = ConsoleColor.White; }
+            var x = Console.ReadLine()?.ToLower();
+            switch (x)
+            { 
+                case "1":
                     await GetPokemon(p.ToLower());
-                }
-                else if(x == "2"){
+                    break;
+                case "2":
                     await GetFemaletoMaleRate(p.ToLower());
-                }
-                else if(x == "3"){
+                    break;
+                case "3":
                     await GetBaseHappiness(p.ToLower());
-                }
-                else if(x == "4"){
+                    break;
+                case "4":
                     await GetPokemon(p.ToLower());
                     await GetFemaletoMaleRate(p);
-                    await GetBaseHappiness(p);   
-                }
-                else if (x == "5"){
-                    quit2 = true;
+                    await GetBaseHappiness(p);
                     break;
-                }
-                else{
+                case "q":
+                    quit2 = true;
+                    quitGame();
+                    break;
+                case "r":
+                    // Console.WriteLine("Case 6 entered.");
+                    quit2 = true;
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.White;
+                    await startGame();
+                    break;
+                default:
                     Console.WriteLine("Invalid input. Try again!");
                     break;
                 }
-                // await GetPokemon(p.ToLower());
-                // await GetFemaletoMaleRate(p);
-                // await GetBaseHappiness(p);
+                // System.Threading.Thread.Sleep(2000); Console.Clear();
             }
-        } 
-    }
     }
 
     public static async Task GetFemaletoMaleRate(string pokemonspecies)
@@ -129,7 +132,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         }
     }
 
-    
+
     public static async Task GetPokemon(string pokemonspecies)
     {
 
@@ -140,37 +143,56 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         try
         {
             PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
-            
+
 
             float cRate = p.CaptureRate;
-                    float entrynumber = p.PokedexNumbers[0].EntryNumber;
-                    Console.WriteLine(p.Name + " has a capture rate of " + cRate + "!");
-                    Console.WriteLine(p.Name + " has a pokedex number of " + entrynumber + "!");
+            float entrynumber = p.PokedexNumbers[0].EntryNumber;
+            Console.WriteLine(p.Name + " has a capture rate of " + cRate + "!");
+            Console.WriteLine(p.Name + " has a pokedex number of " + entrynumber + "!");
             string imageUrl = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{entrynumber}.png";
-
             // Create a BitmapImage object to load the image from the URL
             //BitmapImage image = new BitmapImage(new Uri(imageUrl));
-
-
-            //p.EvolutionChain
 
             Console.WriteLine("The image url of this pokemon is: " + imageUrl);
 
         }
-       
+
         catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
             Console.WriteLine("Pokemon species not found.");
         }
-       
+
     }
 
-    public static async Task PrintPoke(string pokemonspecies){
-        if (pokemonspecies == "jigglypuff")
-            {
+    public static async Task<bool> isRealPoke(string pokemonspecies)
+    {
+        try
+        {
+            PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
 
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                string jigglypuff = @"
+
+            return true;
+
+        }
+
+        catch (HttpRequestException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            Console.WriteLine("Pokemon species not found.");
+            return false;
+
+        }
+
+    }
+    public static void quitGame() {
+        Console.WriteLine("Thanks for playing!");
+        System.Threading.Thread.Sleep(1500); System.Environment.Exit(0);
+
+
+    public static async Task PrintPoke(string pokemonspecies){
+                if (pokemonspecies == "jigglypuff")
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    string jigglypuff = @"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⠶⠛⠉⠹⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣀⣤⠞⠋⠀⢀⣴⣿⣇⠹⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -198,8 +220,8 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠿⣦⣤⣤⣤⣤⡴⠶⠶⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠛⠷⠶⠶⠟⠀⠀⠀";
 
 
-                Console.WriteLine(jigglypuff);
-            }
+                    Console.WriteLine(jigglypuff);
+                }
 
             else if (pokemonspecies == "charizard")
             {
@@ -248,14 +270,12 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 
                     Console.WriteLine(charizard);
                 }
-
-               
-       
+  
             else if (pokemonspecies == "pikachu")
             {
 
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                string pikachu = @"
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    string pikachu = @"
 quu..__
  $$$b  `---.__
   ""$$b        `--.                          ___.---uuudP
@@ -296,14 +316,14 @@ quu..__
               `',:                 :    .'
                                    `:.:'";
 
-                Console.WriteLine(pikachu);
-            }
+                    Console.WriteLine(pikachu);
+                }
 
             else if (pokemonspecies == "squirtle")
             {
 
-                Console.ForegroundColor = ConsoleColor.Blue;
-                string squirtle = @"
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    string squirtle = @"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     _,........__
             ,-'            ""`-.
           ,'                   `-.
@@ -338,14 +358,13 @@ quu..__
                 7____,,..--'      /          |
                                   `---.__,--.'mh";
 
-                Console.WriteLine(squirtle);
-            }
-
+                    Console.WriteLine(squirtle);
+                }
             else if (pokemonspecies == "bulbasaur")
             {
 
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                string bulbasaur = @"
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    string bulbasaur = @"
                                            /
                         _,.------....___,.' ',.-.
                      ,-'          _,.--""        |
@@ -375,7 +394,7 @@ quu..__
  '-.__ __ _,','    '`-..___;-...__   ,.'\ ____.___.'
  `""^--'..'   '-`-^-'""--    `-^-'`.''""""""""""`.,^.`.--'";
 
-                Console.WriteLine(bulbasaur);
+                    Console.WriteLine(bulbasaur);
             }
         else
         {
@@ -402,5 +421,4 @@ quu..__
             }
         }
     }
-
 }
