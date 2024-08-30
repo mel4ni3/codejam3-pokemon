@@ -8,7 +8,7 @@ This an API that searches for pokemon with 5 specific attributes to choose from 
 
 The pokemon that apear with images if you search for them are:
 1. Pikachu
-2. JIgglypuff
+2. Jigglypuff
 3. Bulbasaur
 4. Charizard
 5. Squirtle
