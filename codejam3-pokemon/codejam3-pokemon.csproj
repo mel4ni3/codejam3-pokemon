@@ -12,6 +12,7 @@
     <PackageReference Include="DotImaging.BitmapSourceInterop" Version="4.8.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="PokeApi-NJ.NET" Version="1.2.0" />
+    <PackageReference Include="Spectre.Console.ImageSharp" Version="0.49.1" />
     <PackageReference Include="Uno.UI" Version="5.3.123" />
   </ItemGroup>
 

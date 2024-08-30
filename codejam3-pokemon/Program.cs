@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using static System.Net.Mime.MediaTypeNames;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Drawing;
+using Spectre.Console;
 
 class Program
 {
@@ -54,7 +55,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 
                 bool quit2 = false;
 
-                PrintPoke(p.ToLower());
+                await PrintPoke(p.ToLower());
                 while (!quit2){
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Pick a number to the see the stats:");
@@ -164,7 +165,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
        
     }
 
-    public static void PrintPoke(string pokemonspecies){
+    public static async Task PrintPoke(string pokemonspecies){
         if (pokemonspecies == "jigglypuff")
             {
 
@@ -200,8 +201,8 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
                 Console.WriteLine(jigglypuff);
             }
 
-                if (pokemonspecies == "charizard")
-                {
+            else if (pokemonspecies == "charizard")
+            {
 
                     Console.ForegroundColor = ConsoleColor.Red;
                     string charizard = @"
@@ -250,7 +251,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 
                
        
-            if (pokemonspecies == "pikachu")
+            else if (pokemonspecies == "pikachu")
             {
 
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -298,7 +299,7 @@ quu..__
                 Console.WriteLine(pikachu);
             }
 
-            if (pokemonspecies == "squirtle")
+            else if (pokemonspecies == "squirtle")
             {
 
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -340,7 +341,7 @@ quu..__
                 Console.WriteLine(squirtle);
             }
 
-            if (pokemonspecies == "bulbasaur")
+            else if (pokemonspecies == "bulbasaur")
             {
 
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -376,6 +377,30 @@ quu..__
 
                 Console.WriteLine(bulbasaur);
             }
+        else
+        {
+            try
+            {
+                PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
+
+
+                float cRate = p.CaptureRate;
+                float entrynumber = p.PokedexNumbers[0].EntryNumber;
+                string imageUrl = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{entrynumber}.png";
+                string localPath = $"pokemon-{pokemonspecies}";
+                using (HttpClient client = new HttpClient())
+                {
+                    byte[] imageBytes = await client.GetByteArrayAsync(imageUrl);
+                    await File.WriteAllBytesAsync(localPath, imageBytes);
+                }
+                var image = new CanvasImage(localPath);
+                image.MaxWidth(40);
+                AnsiConsole.Write(image);
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
     }
 
 }
