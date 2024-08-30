@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.AspNetCore.Mvc;
 using static System.Net.Mime.MediaTypeNames;
-using System.Windows;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Drawing;
 
@@ -55,7 +54,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 
                 bool quit2 = false;
 
-            PrintPoke(p.ToLower());
+                PrintPoke(p.ToLower());
                 while (!quit2){
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Pick a number to the see the stats:");
@@ -97,21 +96,38 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
     }
     }
 
-    public static async Task GetFemaletoMaleRate(string pokemonspecies){
-        PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
+    public static async Task GetFemaletoMaleRate(string pokemonspecies)
+    {
+        try
+        {
+            PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
 
-        float? r = p.FemaleToMaleRate;
+            float? r = p.FemaleToMaleRate;
 
-        Console.WriteLine(p.Name + " has a female to male rate of " + r + "!");
+            Console.WriteLine(p.Name + " has a female to male rate of " + r + "!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred while fetching the female to male rate: " + ex.Message);
+        }
     }
 
-    public static async Task GetBaseHappiness(string pokemonspecies){
-        PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
+    public static async Task GetBaseHappiness(string pokemonspecies)
+    {
+        try
+        {
+            PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
 
-        int r = p.BaseHappiness;
+            int r = p.BaseHappiness;
 
-        Console.WriteLine(p.Name + " has a base happiness of " + r + "!");
+            Console.WriteLine(p.Name + " has a base happiness of " + r + "!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred while fetching the base happiness: " + ex.Message);
+        }
     }
+
     
     public static async Task GetPokemon(string pokemonspecies)
     {
