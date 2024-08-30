@@ -49,7 +49,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         {
             await startGame();
         }
-                    await PrintPoke(p.ToLower());
+        await PrintPoke(p.ToLower());
         bool quit2 = false;
         while (!quit2)
         {
@@ -67,7 +67,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             if (!hasArt) { Console.ForegroundColor = ConsoleColor.White; }
             var x = Console.ReadLine()?.ToLower();
             switch (x)
-            { 
+            {
                 case "1":
                     await GetPokemon(p.ToLower());
                     break;
@@ -96,9 +96,9 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
                 default:
                     Console.WriteLine("Invalid input. Try again!");
                     break;
-                }
-                // System.Threading.Thread.Sleep(2000); Console.Clear();
             }
+            // System.Threading.Thread.Sleep(2000); Console.Clear();
+        }
     }
 
     public static async Task GetFemaletoMaleRate(string pokemonspecies)
@@ -132,7 +132,6 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             Console.WriteLine("An error occurred while fetching the base happiness: " + ex.Message);
         }
     }
-
 
     public static async Task GetPokemon(string pokemonspecies)
     {
@@ -184,16 +183,18 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         }
 
     }
-    public static void quitGame() {
+    public static void quitGame()
+    {
         Console.WriteLine("Thanks for playing!");
         System.Threading.Thread.Sleep(1500); System.Environment.Exit(0);
     }
 
-    public static async Task PrintPoke(string pokemonspecies){
-                if (pokemonspecies == "jigglypuff")
-                {
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    string jigglypuff = @"
+    public static async Task PrintPoke(string pokemonspecies)
+    {
+        if (pokemonspecies == "jigglypuff")
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            string jigglypuff = @"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⠶⠛⠉⠹⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣀⣤⠞⠋⠀⢀⣴⣿⣇⠹⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -221,14 +222,14 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠿⣦⣤⣤⣤⣤⡴⠶⠶⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠛⠷⠶⠶⠟⠀⠀⠀";
 
 
-                    Console.WriteLine(jigglypuff);
-                }
+            Console.WriteLine(jigglypuff);
+        }
 
-            else if (pokemonspecies == "charizard")
-            {
+        else if (pokemonspecies == "charizard")
+        {
 
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    string charizard = @"
+            Console.ForegroundColor = ConsoleColor.Red;
+            string charizard = @"
 .""-,.__
                  `.     `.  ,
               .--'  .._,'""-' `.
@@ -269,14 +270,14 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
                /_|.-'\ ,"".             '.'`__'-( \
                  / ,""'""\,'               `/  `-.|"" ";
 
-                    Console.WriteLine(charizard);
-                }
-  
-            else if (pokemonspecies == "pikachu")
-            {
+            Console.WriteLine(charizard);
+        }
 
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    string pikachu = @"
+        else if (pokemonspecies == "pikachu")
+        {
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            string pikachu = @"
 quu..__
  $$$b  `---.__
   ""$$b        `--.                          ___.---uuudP
@@ -317,14 +318,14 @@ quu..__
               `',:                 :    .'
                                    `:.:'";
 
-                    Console.WriteLine(pikachu);
-                }
+            Console.WriteLine(pikachu);
+        }
 
-            else if (pokemonspecies == "squirtle")
-            {
+        else if (pokemonspecies == "squirtle")
+        {
 
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    string squirtle = @"
+            Console.ForegroundColor = ConsoleColor.Blue;
+            string squirtle = @"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     _,........__
             ,-'            ""`-.
           ,'                   `-.
@@ -359,13 +360,13 @@ quu..__
                 7____,,..--'      /          |
                                   `---.__,--.'mh";
 
-                    Console.WriteLine(squirtle);
-                }
-            else if (pokemonspecies == "bulbasaur")
-            {
+            Console.WriteLine(squirtle);
+        }
+        else if (pokemonspecies == "bulbasaur")
+        {
 
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    string bulbasaur = @"
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            string bulbasaur = @"
                                            /
                         _,.------....___,.' ',.-.
                      ,-'          _,.--""        |
@@ -395,10 +396,10 @@ quu..__
  '-.__ __ _,','    '`-..___;-...__   ,.'\ ____.___.'
  `""^--'..'   '-`-^-'""--    `-^-'`.''""""""""""`.,^.`.--'";
 
-                    Console.WriteLine(bulbasaur);
-            }
-        else
-        {
+            Console.WriteLine(bulbasaur);
+        }
+        //else
+        //{
             try
             {
                 PokemonSpecies p = await DataFetcher.GetNamedApiObject<PokemonSpecies>(pokemonspecies);
@@ -416,10 +417,14 @@ quu..__
                 var image = new CanvasImage(localPath);
                 image.MaxWidth(40);
                 AnsiConsole.Write(image);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
+        //}
+    }
+}
 
 
 
