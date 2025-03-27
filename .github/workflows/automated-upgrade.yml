@@ -1,0 +1,21 @@
+```yaml
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+  - script: |
+      dotnet tool restore
+      dotnet migrate
+      dotnet add package Microsoft.EntityFrameworkCore --version 9.0.0
+      dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.0
+      dotnet add package Newtonsoft.Json --version 13.0.3
+      dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 9.0.2
+      dotnet add package Swashbuckle.AspNetCore --version 6.4.0
+      dotnet build
+    displayName: 'Convert Project to .NET 9.0'
+```
